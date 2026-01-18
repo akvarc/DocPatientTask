@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getLoggedInUser, logout } from "../../utils/auth";
@@ -24,10 +25,10 @@ const PatientDashboard = () => {
   ];
 
   return (
-    <div className="p-10">
+    <div className="p-4 md:p-10">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+        <h1 className="text-xl md:text-2xl font-bold">
           Welcome {user?.name}
         </h1>
 
@@ -36,19 +37,19 @@ const PatientDashboard = () => {
             logout();
             navigate("/login");
           }}
-          className="bg-black text-white px-4 py-2 rounded-md"
+          className="bg-black text-white px-4 py-2 rounded-md w-fit"
         >
           Logout
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-4 border-b mb-6">
+      <div className="flex flex-wrap gap-4 border-b mb-6">
         {["history", "appointments", "stats"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`pb-2 ${
+            className={`pb-2 text-sm md:text-base ${
               activeTab === tab
                 ? "border-b-2 border-black font-semibold"
                 : "text-gray-500"
@@ -61,47 +62,51 @@ const PatientDashboard = () => {
 
       {/* Medical History */}
       {activeTab === "history" && (
-        <table className="w-full border">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2">Condition</th>
-              <th className="border p-2">Year</th>
-            </tr>
-          </thead>
-          <tbody>
-            {medicalHistory.map((m) => (
-              <tr key={m.id}>
-                <td className="border p-2">{m.condition}</td>
-                <td className="border p-2">{m.year}</td>
+        <div className="overflow-x-auto">
+          <table className="min-w-[400px] w-full border">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="border p-2 text-left">Condition</th>
+                <th className="border p-2 text-left">Year</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {medicalHistory.map((m) => (
+                <tr key={m.id}>
+                  <td className="border p-2">{m.condition}</td>
+                  <td className="border p-2">{m.year}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {/* Appointments */}
       {activeTab === "appointments" && (
-        <table className="w-full border">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2">Doctor</th>
-              <th className="border p-2">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {appointments.map((a) => (
-              <tr key={a.id}>
-                <td className="border p-2">{a.doctor}</td>
-                <td className="border p-2">{a.date}</td>
+        <div className="overflow-x-auto">
+          <table className="min-w-[400px] w-full border">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="border p-2 text-left">Doctor</th>
+                <th className="border p-2 text-left">Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {appointments.map((a) => (
+                <tr key={a.id}>
+                  <td className="border p-2">{a.doctor}</td>
+                  <td className="border p-2">{a.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {/* Health Stats */}
       {activeTab === "stats" && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {healthStats.map((s, i) => (
             <div key={i} className="border p-4 text-center">
               <p className="text-sm">{s.label}</p>
